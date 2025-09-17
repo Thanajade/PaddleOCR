@@ -45,7 +45,7 @@ class SimpleDataSet(Dataset):
         self.data_dir = dataset_config["data_dir"]
         self.do_shuffle = loader_config["shuffle"]
         self.seed = seed
-        logger.info("Initialize indexs of datasets:%s" % label_file_list)
+        logger.info("Initialize indexes of datasets:%s" % label_file_list)
         self.data_lines = self.get_image_info_list(label_file_list, ratio_list)
         self.data_idx_order_list = list(range(len(self.data_lines)))
         if self.mode == "train" and self.do_shuffle:
@@ -166,10 +166,10 @@ class MultiScaleDataSet(SimpleDataSet):
     def wh_aware(self):
         data_line_new = []
         wh_ratio = []
-        for lins in self.data_lines:
-            data_line_new.append(lins)
-            lins = lins.decode("utf-8")
-            name, label, w, h = lins.strip("\n").split(self.delimiter)
+        for line in self.data_lines:
+            data_line_new.append(line)
+            line = line.decode("utf-8")
+            name, label, w, h = line.strip("\n").split(self.delimiter)
             wh_ratio.append(float(w) / float(h))
 
         self.data_lines = data_line_new
@@ -206,7 +206,7 @@ class MultiScaleDataSet(SimpleDataSet):
         return data
 
     def __getitem__(self, properties):
-        # properites is a tuple, contains (width, height, index)
+        # properties is a tuple, contains (width, height, index)
         img_height = properties[1]
         idx = properties[2]
         if self.ds_width and properties[3] is not None:
